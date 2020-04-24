@@ -18,7 +18,7 @@ const BubblePage = (props) => {
       console.log(colorList)
     })
     .catch(err=>(console.log(err, 'Sorry, error in retrieving colors data')))
-  }, []);
+  }, [props]);
 
   return (
     <>
