@@ -40,8 +40,28 @@ const ColorList = ({ props, colors, updateColors }) => {
   //stretch add color
   const addColor =e =>{
     e.preventDefault();
+    console.log(addColor);
 
+    axiosWithAuth()
+    .post('/api/colors', addColor)
+    .then(res=>{
+        console.log(res)
+        updateColors([...colors, addedColor])
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
+
+
+  const handleChange = e=>{
+    setAddedColor({...addColor, [e.target.name]:e.target.value})
   }
+
+  const handleHexChange = e =>{
+    setAddedColor({...addColor, code: {hex: e.target.value}})
+  }
+
   return (
     <div className="colors-wrap">
       <p>colors</p>
@@ -97,8 +117,27 @@ const ColorList = ({ props, colors, updateColors }) => {
           </div>
         </form>
       )}
-      <div className="spacer" />
+      
       {/* stretch - build another form here to add a color */}
+      <form onSubmit ={addColor}>
+              <p>New Color</p>
+              <input
+                type="text"
+                name="color"
+                placeholder="color"
+                value={addedColor.color}
+                onChange ={handleChange}
+              />
+              <p>Hex Code</p>
+              <input
+                type="text"
+                placeholder="hex"
+                value = {addedColor.code.hex}
+                name="hex"
+                onChange ={handleHexChange}
+              />
+              <button>Add New Color</button>
+      </form>
     </div>
   );
 };
