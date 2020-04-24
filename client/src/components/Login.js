@@ -21,9 +21,9 @@ const Login = (props) => {
     e.preventDefault();
     setLogin({ ...login, isFetching: true });
     axiosWithAuth()
-      .post("/api/login", login)
+      .post('/api/login', login)
       .then((res) => {
-        localStorage.setItem("token", res.data.message);
+        localStorage.setItem("token", res.data.payload);
         props.history.push("/bubble-page");
       })
       .catch((err) => {
