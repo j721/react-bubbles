@@ -23,7 +23,7 @@ const Login = (props) => {
     axiosWithAuth()
       .post("/api/login", login)
       .then((res) => {
-        localStorage.setItem("token", res.data.payload);
+        localStorage.setItem("token", res.data.message);
         props.history.push("/bubble-page");
       })
       .catch((err) => {
