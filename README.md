@@ -31,6 +31,7 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
       Tokens are used for user authentication, such as a login that requires a username and password. They are strings 	of cryptic text that can stored on the client-side with the use of local storage. 
 
 - [ ] What steps can you take in your web apps to keep your data secure?
+
         Use protective routes and require authentication to access/login into an application website. 
 
 - [ ] Describe how web servers work.
