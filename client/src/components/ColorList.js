@@ -11,7 +11,10 @@ const ColorList = ({ props, colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-
+  const [addedColor, setAddedColor] = useState({
+    color: '',
+    code:{hex: ''}
+  })
   const editColor = (color) => {
     setEditing(true);
     setColorToEdit(color);
@@ -34,6 +37,11 @@ const ColorList = ({ props, colors, updateColors }) => {
     props.history.push('/bubble-page');
   };
 
+  //stretch add color
+  const addColor =e =>{
+    e.preventDefault();
+
+  }
   return (
     <div className="colors-wrap">
       <p>colors</p>
