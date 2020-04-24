@@ -31,6 +31,7 @@ const ColorList = ({ props, colors, updateColors }) => {
   // make a delete request to delete this color
   const deleteColor = (color) => {
     axiosWithAuth.delete(`/api/colors/${color.id}`)
+    props.history.push('/bubble-page');
   };
 
   return (
