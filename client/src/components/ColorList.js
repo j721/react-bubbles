@@ -49,7 +49,7 @@ const ColorList = ({ props, colors, updateColors }) => {
         updateColors([...colors, addedColor])
       })
       .catch(err=>{
-        console.log(err)
+        console.log(err, "sorry couldn't add color")
       })
     }
 
@@ -126,7 +126,7 @@ const ColorList = ({ props, colors, updateColors }) => {
                 name="color"
                 placeholder="color"
                 value={addedColor.color}
-                onChange ={handleChange}
+                onChange ={e=>setAddedColor({...addedColor, color: e.target.value})}
               />
               <p>Hex Code</p>
               <input
@@ -134,7 +134,7 @@ const ColorList = ({ props, colors, updateColors }) => {
                 placeholder="hex"
                 value = {addedColor.code.hex}
                 name="hex"
-                onChange ={handleHexChange}
+                onChange ={e=>setAddedColor({...addedColor, code: {hex: e.target.value}})}
               />
               <button>Add New Color</button>
       </form>
