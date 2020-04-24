@@ -49,7 +49,7 @@ const Login = (props) => {
           <br />
           <input
             label="Password"
-            type="password"
+            type="text"
             name="password"
             placeholder="password"
             value={login.password}
