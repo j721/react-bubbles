@@ -1,45 +1,82 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const initialColor = {
   color: "",
-  code: { hex: "" }
+  code: { hex: "" },
 };
 
-const ColorList = ({ colors, updateColors }) => {
+const ColorList = ({ props, colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-
-  const editColor = color => {
+  const [addedColor, setAddedColor] = useState({
+    color: '',
+    code:{hex: ''}
+  })
+  const editColor = (color) => {
     setEditing(true);
     setColorToEdit(color);
   };
 
-  const saveEdit = e => {
+  // Make a put request to save your updated color
+  // think about where will you get the id from...
+  // where is is saved right now?
+
+  const saveEdit = (e) => {
     e.preventDefault();
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
+    axiosWithAuth()
+    .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
+    props.history.push('/bubble-page');
   };
 
-  const deleteColor = color => {
-    // make a delete request to delete this color
+  // make a delete request to delete this color
+  const deleteColor = (color) => {
+    axiosWithAuth().delete(`/api/colors/${color.id}`)
+    props.history.push('/bubble-page');
   };
+
+  //stretch add color
+  const addColor =e =>{
+    e.preventDefault();
+    console.log(addColor);
+
+    axiosWithAuth()
+    .post('/api/colors', addColor)
+    .then(res=>{
+        console.log(res)
+        updateColors([...colors, addedColor])
+      })
+      .catch(err=>{
+        console.log(err, "sorry couldn't add color")
+      })
+    }
+
+
+  const handleChange = e=>{
+    setAddedColor({...addColor, [e.target.name]:e.target.value})
+  }
+
+  const handleHexChange = e =>{
+    setAddedColor({...addColor, code: {hex: e.target.value}})
+  }
 
   return (
     <div className="colors-wrap">
       <p>colors</p>
       <ul>
-        {colors.map(color => (
+        {colors.map((color) => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
-              <span className="delete" onClick={e => {
-                    e.stopPropagation();
-                    deleteColor(color)
-                  }
-                }>
-                  x
+              <span
+                className="delete"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteColor(color);
+                }}
+              >
+                x
               </span>{" "}
               {color.color}
             </span>
@@ -56,7 +93,7 @@ const ColorList = ({ colors, updateColors }) => {
           <label>
             color name:
             <input
-              onChange={e =>
+              onChange={(e) =>
                 setColorToEdit({ ...colorToEdit, color: e.target.value })
               }
               value={colorToEdit.color}
@@ -65,10 +102,10 @@ const ColorList = ({ colors, updateColors }) => {
           <label>
             hex code:
             <input
-              onChange={e =>
+              onChange={(e) =>
                 setColorToEdit({
                   ...colorToEdit,
-                  code: { hex: e.target.value }
+                  code: { hex: e.target.value },
                 })
               }
               value={colorToEdit.code.hex}
@@ -80,8 +117,27 @@ const ColorList = ({ colors, updateColors }) => {
           </div>
         </form>
       )}
-      <div className="spacer" />
+      
       {/* stretch - build another form here to add a color */}
+      <form onSubmit ={addColor}>
+              <p>New Color</p>
+              <input
+                type="text"
+                name="color"
+                placeholder="color"
+                value={addedColor.color}
+                onChange ={e=>setAddedColor({...addedColor, color: e.target.value})}
+              />
+              <p>Hex Code</p>
+              <input
+                type="text"
+                placeholder="hex"
+                value = {addedColor.code.hex}
+                name="hex"
+                onChange ={e=>setAddedColor({...addedColor, code: {hex: e.target.value}})}
+              />
+              <button>Add New Color</button>
+      </form>
     </div>
   );
 };
